@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prepositions Game | Ms.Ramezanzadeh</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    background: linear-gradient(135deg, #dff6ff, #f1e5ff);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+.container {
+    width: 100%;
+    max-width: 850px;
+    background: white;
+    border-radius: 25px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+h1 {
+    color: #6c63ff;
+    margin-top: 5px;
+}
+
+.teacher {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+input {
+    width: 90%;
+    max-width: 350px;
+    padding: 14px;
+    font-size: 18px;
+    border: 2px solid #cfcaff;
+    border-radius: 12px;
+    text-align: center;
+    margin: 15px 0;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: bold;
+    border-radius: 12px;
+    padding: 13px 20px;
+    transition: 0.2s;
+}
+
+button:hover {
+    transform: scale(1.03);
+}
+
+.main-btn {
+    background: #6c63ff;
+    color: white;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    background: #f5f3ff;
+    border-radius: 12px;
+    padding: 12px;
+    margin: 15px 0;
+    font-weight: bold;
+    color: #554bd8;
+}
+
+#picture {
+    width: 100%;
+    max-width: 360px;
+    height: 280px;
+    object-fit: contain;
+    background: #fafafa;
+    border-radius: 15px;
+    margin: 10px auto;
+    display: block;
+}
+
+.question {
+    font-size: 22px;
+    color: #333;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.option {
+    background: #e9e7ff;
+    color: #4438a8;
+    min-height: 60px;
+}
+
+.option.correct {
+    background: #b8f5cc;
+    color: #176b35;
+}
+
+.option.wrong {
+    background: #ffd1d1;
+    color: #a32020;
+}
+
+.feedback {
+    font-size: 22px;
+    font-weight: bold;
+    min-height: 35px;
+    margin: 15px 0;
+}
+
+.word-bank {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.word {
+    background: #e9e7ff;
+    color: #4438a8;
+}
+
+.answer-area {
+    min-height: 65px;
+    background: #f5f3ff;
+    border: 2px dashed #aaa0ff;
+    border-radius: 15px;
+    padding: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+}
+
+.answer-word {
+    background: #b9e8ff;
+    color: #145a82;
+}
+
+.small-btn {
+    background: #ffdc9e;
+    color: #7a4c00;
+    margin: 5px;
+}
+
+.progress {
+    height: 12px;
+    background: #eee;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 15px 0;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #6c63ff;
+    transition: width 0.3s;
+}
+
+@media(max-width: 550px) {
+    .container {
+        padding: 15px;
+    }
+
+    #picture {
+        height: 230px;
+    }
+
+    .options {
+        grid-template-columns: 1fr;
+    }
+
+    .question {
+        font-size: 19px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🎮 Prepositions Game</h1>
+    <div class="teacher">Created by Ms.Ramezanzadeh</div>
+
+    <!-- START SCREEN -->
+    <div id="startScreen" class="screen active">
+
+        <h2>Welcome to the Game!</h2>
+        <p>Enter your name to start playing.</p>
+
+        <input
+            type="text"
+            id="studentName"
+            placeholder="Your name"
+            autocomplete="off"
+        >
+
+        <br>
+
+        <button class="main-btn" onclick="startGame()">
+            Start Game 🚀
+        </button>
+
+    </div>
+
+    <!-- STAGE 1 -->
+    <div id="stage1Screen" class="screen">
+
+        <div class="info">
+            <span id="player1"></span>
+            <span id="lives1">❤️❤️❤️</span>
+            <span id="stage1Progress">Question 1 / 11</span>
+        </div>
+
+        <div class="progress">
+            <div id="bar1" class="progress-bar"></div>
+        </div>
+
+        <h2>Stage 1: Choose the Correct Sentence</h2>
+
+        <img id="picture" src="" alt="Picture">
+
+        <div class="question">
+            What is the correct sentence?
+        </div>
+
+        <div id="options" class="options"></div>
+
+        <div id="feedback1" class="feedback"></div>
+
+    </div>
+
+    <!-- STAGE 2 -->
+    <div id="stage2Screen" class="screen">
+
+        <div class="info">
+            <span id="player2"></span>
+            <span id="lives2">❤️❤️❤️</span>
+            <span id="stage2Progress">Question 1 / 11</span>
+        </div>
+
+        <div class="progress">
+            <div id="bar2" class="progress-bar"></div>
+        </div>
+
+        <h2>Stage 2: Make the Sentence</h2>
+
+        <img id="picture2" src="" alt="Picture" style="
+            width:100%;
+            max-width:300px;
+            height:220px;
+            object-fit:contain;
+            background:#fafafa;
+            border-radius:15px;
+        ">
+
+        <div class="question">
+            Put the words in the correct order.
+        </div>
+
+        <div id="answerArea" class="answer-area"></div>
+
+        <div id="wordBank" class="word-bank"></div>
+
+        <button class="small-btn" onclick="clearAnswer()">
+            Clear
+        </button>
+
+        <button class="main-btn" onclick="checkSentence()">
+            Check Answer
+        </button>
+
+        <div id="feedback2" class="feedback"></div>
+
+    </div>
+
+    <!-- WIN SCREEN -->
+    <div id="winScreen" class="screen">
+
+        <h2>🏆 Congratulations!</h2>
+
+        <h1>You Are the Winner!</h1>
+
+        <p id="winMessage"></p>
+
+        <div style="font-size:60px;">🎉 ⭐ 🏆 ⭐ 🎉</div>
+
+        <button class="main-btn" onclick="restartGame()">
+            Play Again
+        </button>
+
+    </div>
+
+    <!-- GAME OVER SCREEN -->
+    <div id="gameOverScreen" class="screen">
+
+        <h2>Game Over!</h2>
+
+        <p>Don't give up! Try again!</p>
+
+        <div style="font-size:60px;">💪 🎮</div>
+
+        <button class="main-btn" onclick="restartGame()">
+            Try Again
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+// ======================================
+// GAME DATA
+// ======================================
+
+const stage1 = [
+
+    {
+        image: "cat_on_box.png",
+        answer: "The cat is on the box.",
+        options: [
+            "The cat is on the box.",
+            "The cat is under the box.",
+            "The cat is in the box.",
+            "The cat is next to the box."
+        ]
+    },
+
+    {
+        image: "cat_in_box.png",
+        answer: "The cat is in the box.",
+        options: [
+            "The cat is on the box.",
+            "The cat is in the box.",
+            "The cat is under the box.",
+            "The cat is behind the box."
+        ]
+    },
+
+    {
+        image: "mouse_on_chair.png",
+        answer: "The mouse is on the chair.",
+        options: [
+            "The mouse is under the chair.",
+            "The mouse is in the chair.",
+            "The mouse is on the chair.",
+            "The mouse is behind the chair."
+        ]
+    },
+
+    {
+        image: "ball_under_chair.png",
+        answer: "The ball is under the chair.",
+        options: [
+            "The ball is on the chair.",
+            "The ball is under the chair.",
+            "The ball is in the chair.",
+            "The ball is next to the chair."
+        ]
+    },
+
+    {
+        image: "spider_on_table.png",
+        answer: "The spider is on the table.",
+        options: [
+            "The spider is under the table.",
+            "The spider is in the table.",
+            "The spider is on the table.",
+            "The spider is behind the table."
+        ]
+    },
+
+    {
+        image: "frog_under_car.png",
+        answer: "The frog is under the car.",
+        options: [
+            "The frog is on the car.",
+            "The frog is in the car.",
+            "The frog is next to the car.",
+            "The frog is under the car."
+        ]
+    },
+
+    {
+        image: "dog_in_box.png",
+        answer: "The dog is in the box.",
+        options: [
+            "The dog is in the box.",
+            "The dog is on the box.",
+            "The dog is under the box.",
+            "The dog is behind the box."
+        ]
+    },
+
+    {
+        image: "bird_under_tree.png",
+        answer: "The bird is under the tree.",
+        options: [
+            "The bird is on the tree.",
+            "The bird is under the tree.",
+            "The bird is in the tree.",
+            "The bird is next to the tree."
+        ]
+    },
+
+    {
+        image: "rabbit_in_basket.png",
+        answer: "The rabbit is in the basket.",
+        options: [
+            "The rabbit is on the basket.",
+            "The rabbit is under the basket.",
+            "The rabbit is in the basket.",
+            "The rabbit is behind the basket."
+        ]
+    },
+
+    {
+        image: "duck_in_pond.png",
+        answer: "The duck is in the pond.",
+        options: [
+            "The duck is under the pond.",
+            "The duck is on the pond.",
+            "The duck is in the pond.",
+            "The duck is behind the pond."
+        ]
+    },
+
+    {
+        image: "turtle_on_rock.png",
+        answer: "The turtle is on the rock.",
+        options: [
+            "The turtle is under the rock.",
+            "The turtle is in the rock.",
+            "The turtle is on the rock.",
+            "The turtle is next to the rock."
+        ]
+    }
+
+];
+
+
+// ======================================
+// STAGE 2 DATA
+// Sentence and picture correspondence
+// ======================================
+
+const stage2 = [
+
+    {
+        image: "cat_on_box.png",
+        sentence: "The cat is on the box."
+    },
+
+    {
+        image: "cat_in_box.png",
+        sentence: "The cat is in the box."
+    },
+
+    {
+        image: "mouse_on_chair.png",
+        sentence: "The mouse is on the chair."
+    },
+
+    {
+        image: "ball_under_chair.png",
+        sentence: "The ball is under the chair."
+    },
+
+    {
+        image: "spider_on_table.png",
+        sentence: "The spider is on the table."
+    },
+
+    {
+        image: "frog_under_car.png",
+        sentence: "The frog is under the car."
+    },
+
+    {
+        image: "dog_in_box.png",
+        sentence: "The dog is in the box."
+    },
+
+    {
+        image: "bird_under_tree.png",
+        sentence: "The bird is under the tree."
+    },
+
+    {
+        image: "rabbit_in_basket.png",
+        sentence: "The rabbit is in the basket."
+    },
+
+    {
+        image: "duck_in_pond.png",
+        sentence: "The duck is in the pond."
+    },
+
+    {
+        image: "turtle_on_rock.png",
+        sentence: "The turtle is on the rock."
+    }
+
+];
+
+
+// ======================================
+// GAME VARIABLES
+// ======================================
+
+let student = "";
+let lives = 3;
+
+let index = 0;
+let stage = 1;
+
+let currentAnswer = [];
+let currentWords = [];
+
+let locked = false;
+
+
+// ======================================
+// AUDIO
+// ======================================
+
+function speak(text) {
+
+    if (!("speechSynthesis" in window)) {
+        return;
+    }
+
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+
+    utterance.lang = "en-US";
+    utterance.rate = 0.85;
+    utterance.pitch = 1;
+
+    window.speechSynthesis.speak(utterance);
+}
+
+
+// ======================================
+// SCREEN CONTROL
+// ======================================
+
+function showScreen(screenId) {
+
+    document.querySelectorAll(".screen").forEach(screen => {
+        screen.classList.remove("active");
+    });
+
+    document.getElementById(screenId).classList.add("active");
+}
+
+
+// ======================================
+// START GAME
+// ======================================
+
+function startGame() {
+
+    const nameInput = document.getElementById("studentName");
+
+    student = nameInput.value.trim();
+
+    if (student === "") {
+        alert("Please enter your name!");
+        nameInput.focus();
+        return;
+    }
+
+    lives = 3;
+    index = 0;
+    stage = 1;
+    locked = false;
+
+    document.getElementById("player1").textContent =
+        "👤 " + student;
+
+    document.getElementById("player2").textContent =
+        "👤 " + student;
+
+    showScreen("stage1Screen");
+
+    loadStage1();
+
+    speak("Hello " + student + "! Let's play the game!");
+}
+
+
+// ======================================
+// SHUFFLE ARRAY
+// ======================================
+
+function shuffle(array) {
+
+    const shuffled = [...array];
+
+    for (let i = shuffled.length - 1; i > 0; i--) {
+
+        const j = Math.floor(Math.random() * (i + 1));
+
+        [shuffled[i], shuffled[j]] =
+        [shuffled[j], shuffled[i]];
+
+    }
+
+    return shuffled;
+}
+
+
+// ======================================
+// STAGE 1
+// ======================================
+
+function loadStage1() {
+
+    locked = false;
+
+    if (index >= stage1.length) {
+
+        index = 0;
+        stage = 2;
+
+        showScreen("stage2Screen");
+
+        loadStage2();
+
+        speak("Great job! Welcome to Stage Two!");
+
+        return;
+    }
+
+    const item = stage1[index];
+
+    document.getElementById("picture").src = item.image;
+
+    document.getElementById("stage1Progress").textContent =
+        "Question " + (index + 1) + " / " + stage1.length;
+
+    document.getElementById("bar1").style.width =
+        ((index / stage1.length) * 100) + "%";
+
+    document.getElementById("lives1").textContent =
+        "❤️".repeat(lives) + "🖤".repeat(3 - lives);
+
+    document.getElementById("feedback1").textContent = "";
+
+    const optionsContainer = document.getElementById("options");
+
+    optionsContainer.innerHTML = "";
+
+    const shuffledOptions = shuffle(item.options);
+
+    shuffledOptions.forEach(option => {
+
+        const button = document.createElement("button");
+
+        button.className = "option";
+        button.textContent = option;
+
+        button.onclick = function() {
+            checkOption(option, button);
+        };
+
+        optionsContainer.appendChild(button);
+
+    });
+
+    speak("What is the correct sentence?");
+}
+
+
+// ======================================
+// CHECK STAGE 1 ANSWER
+// ======================================
+
+function checkOption(option, button) {
+
+    if (locked) return;
+
+    const correctAnswer = stage1[index].answer;
+
+    if (option === correctAnswer) {
+
+        locked = true;
+
+        button.classList.add("correct");
+
+        document.getElementById("feedback1").textContent =
+            "Excellent! ⭐";
+
+        speak("Excellent!");
+
+        setTimeout(() => {
+
+            index++;
+
+            loadStage1();
+
+        }, 1200);
+
+    } else {
+
+        button.classList.add("wrong");
+
+        button.disabled = true;
+
+        lives--;
+
+        document.getElementById("lives1").textContent =
+            "❤️".repeat(lives) + "🖤".repeat(3 - lives);
+
+        document.getElementById("feedback1").textContent =
+            "Try again!";
+
+        speak("Try again!");
+
+        if (lives <= 0) {
+
+            setTimeout(gameOver, 1000);
+
+        }
+
+    }
+
+}
+
+
+// ======================================
+// STAGE 2
+// ======================================
+
+function loadStage2() {
+
+    locked = false;
+
+    if (index >= stage2.length) {
+
+        winGame();
+
+        return;
+    }
+
+    const item = stage2[index];
+
+    document.getElementById("picture2").src = item.image;
+
+    document.getElementById("stage2Progress").textContent =
+        "Question " + (index + 1) + " / " + stage2.length;
+
+    document.getElementById("bar2").style.width =
+        ((index / stage2.length) * 100) + "%";
+
+    document.getElementById("lives2").textContent =
+        "❤️".repeat(lives) + "🖤".repeat(3 - lives);
+
+    document.getElementById("feedback2").textContent = "";
+
+    currentAnswer = [];
+
+    currentWords = item.sentence
+        .replace(".", "")
+        .split(" ");
+
+    currentWords = shuffle(currentWords);
+
+    renderWords();
+
+    renderAnswer();
+
+    speak("Put the words in the correct order.");
+
+}
+
+
+// ======================================
+// RENDER WORD BANK
+// ======================================
+
+function renderWords() {
+
+    const wordBank = document.getElementById("wordBank");
+
+    wordBank.innerHTML = "";
+
+    currentWords.forEach((word, i) => {
+
+        const button = document.createElement("button");
+
+        button.className = "word";
+
+        button.textContent = word;
+
+        button.onclick = function() {
+
+            if (locked) return;
+
+            currentAnswer.push({
+                word: word,
+                originalIndex: i
+            });
+
+            currentWords.splice(i, 1);
+
+            renderWords();
+
+            renderAnswer();
+
+            speak(word);
+
+        };
+
+        wordBank.appendChild(button);
+
+    });
+
+}
+
+
+// ======================================
+// RENDER ANSWER
+// ======================================
+
+function renderAnswer() {
+
+    const answerArea = document.getElementById("answerArea");
+
+    answerArea.innerHTML = "";
+
+    currentAnswer.forEach((item, i) => {
+
+        const button = document.createElement("button");
+
+        button.className = "answer-word";
+
+        button.textContent = item.word;
+
+        button.onclick = function() {
+
+            if (locked) return;
+
+            currentWords.push(item.word);
+
+            currentAnswer.splice(i, 1);
+
+            renderWords();
+
+            renderAnswer();
+
+        };
+
+        answerArea.appendChild(button);
+
+    });
+
+}
+
+
+// ======================================
+// CLEAR ANSWER
+// ======================================
+
+function clearAnswer() {
+
+    if (locked) return;
+
+    currentAnswer.forEach(item => {
+
+        currentWords.push(item.word);
+
+    });
+
+    currentAnswer = [];
+
+    renderWords();
+
+    renderAnswer();
+
+}
+
+
+// ======================================
+// CHECK STAGE 2 SENTENCE
+// ======================================
+
+function checkSentence() {
+
+    if (locked) return;
+
+    const correctSentence =
+        stage2[index].sentence.replace(".", "");
+
+    const userSentence =
+        currentAnswer.map(item => item.word).join(" ");
+
+    if (userSentence === correctSentence) {
+
+        locked = true;
+
+        document.getElementById("feedback2").textContent =
+            "Perfect! 🌟";
+
+        speak("Perfect! Well done!");
+
+        setTimeout(() => {
+
+            index++;
+
+            loadStage2();
+
+        }, 1300);
+
+    } else {
+
+        lives--;
+
+        document.getElementById("lives2").textContent =
+            "❤️".repeat(lives) + "🖤".repeat(3 - lives);
+
+        document.getElementById("feedback2").textContent =
+            "Oops! Try again!";
+
+        speak("Oops! Try again!");
+
+        if (lives <= 0) {
+
+            setTimeout(gameOver, 1000);
+
+        }
+
+    }
+
+}
+
+
+// ======================================
+// GAME OVER
+// ======================================
+
+function gameOver() {
+
+    window.speechSynthesis.cancel();
+
+    showScreen("gameOverScreen");
+
+    speak("Game over! Don't give up! Try again!");
+
+}
+
+
+// ======================================
+// WIN GAME
+// ======================================
+
+function winGame() {
+
+    window.speechSynthesis.cancel();
+
+    showScreen("winScreen");
+
+    document.getElementById("winMessage").textContent =
+        "Amazing work, " + student + "! You completed both stages!";
+
+    speak("Congratulations " + student + "! You are the winner!");
+
+}
+
+
+// ======================================
+// RESTART
+// ======================================
+
+function restartGame() {
+
+    window.speechSynthesis.cancel();
+
+    lives = 3;
+
+    index = 0;
+
+    stage = 1;
+
+    locked = false;
+
+    showScreen("startScreen");
+
+    document.getElementById("studentName").value = "";
+
+}
+
+</script>
+
+</body>
+</html>
